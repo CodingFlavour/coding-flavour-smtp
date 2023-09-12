@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/app.ts",
-    "preprod": "ts-node server.ts --transpile-only"
+    "preprod": "ts-node ./src/app.ts --transpile-only"
   },
   "keywords": [],
   "author": "",
