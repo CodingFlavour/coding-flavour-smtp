@@ -41,7 +41,7 @@ const sendMail = async (
   const codingFlavourEmail = getCodingFlavourEmail(to);
 
   if (!codingFlavourEmail) {
-    res.send("'To' does not exists");
+    res.send("'To' does not exist");
     next();
     return;
   }
