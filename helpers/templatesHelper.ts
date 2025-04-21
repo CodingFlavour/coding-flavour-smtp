@@ -26,7 +26,7 @@ const getTemplate = (
     case TEMPLATES.PORTFOLIO:
       return `From ${name} - ${from} \n\n ${message}`;
     default:
-      return `From ${name} - ${from} \n\n ${message}`;
+      throw new Error("Template not found"); 
   }
 };
 
@@ -37,7 +37,7 @@ const buildTemplate = (
     case TEMPLATES.TICKET_CREATED:
       return getTicketCreatedTemplate();
     default:
-      return getTicketCreatedTemplate();
+      throw new Error("Template not found");
   }
 }
 
