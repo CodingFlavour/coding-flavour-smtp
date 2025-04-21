@@ -22,19 +22,19 @@ const sendMail = async (
 
   if (!name || !message) {
     res.send("Empty body params");
-    next();
+
     return;
   }
 
   if (typeof from !== "string" || typeof to !== "string") {
     res.send("Invalid body params");
-    next();
+
     return;
   }
 
   if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
     res.send("Not valid 'From' email");
-    next();
+
     return;
   }
 
@@ -42,7 +42,7 @@ const sendMail = async (
 
   if (!codingFlavourEmail) {
     res.send("'To' does not exist");
-    next();
+
     return;
   }
 
