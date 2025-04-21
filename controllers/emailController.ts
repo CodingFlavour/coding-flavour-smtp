@@ -1,7 +1,7 @@
-import { Request, NextFunction, Response } from "express";
-import SendGrid from "../services/emailService";
-import { TEMPLATES, getTemplate } from "../helpers/templatesHelper";
+import { NextFunction, Request, Response } from "express";
 import { getCodingFlavourEmail } from "../helpers/emailHelper";
+import SendGrid from "../services/emailService";
+import TEMPLATES from "../helpers/templatesHelper";
 
 interface IEmailRequestParams {
   from: string;
@@ -13,33 +13,46 @@ interface IEmailRequestParams {
 const PORTFOLIO_SUBJECT = "Portfolio contact";
 const REGEX_EMAIL_VALIDATOR = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-const sendMail = (
+const sendMail = async (
   req: Request<IEmailRequestParams>,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const sendgrid = SendGrid();
-    const { from, to, name, message } = req.body;
+  const { from, to, name, message } = req.body;
 
-    const codingFlavourEmail = getCodingFlavourEmail(to);
-    if (!codingFlavourEmail) {
-      res.send("'To' does not exists");
-      next();
-      return;
-    }
-    if (!name || !message) {
-      res.send("Empty body params");
-      next();
-      return;
-    }
-    if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
-      res.send("Not valid 'From' email");
-      next();
-      return;
-    }
-    const html = getTemplate(TEMPLATES.PORTFOLIO, from, name, message);
-    sendgrid.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, html);
+  if (!name || !message) {
+    res.send("Empty body params");
+
+    return;
+  }
+
+  if (typeof from !== "string" || typeof to !== "string") {
+    res.send("Invalid body params");
+
+    return;
+  }
+
+  if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
+    res.send("Not valid 'From' email");
+
+    return;
+  }
+
+  const codingFlavourEmail = getCodingFlavourEmail(to);
+
+  if (!codingFlavourEmail) {
+    res.send("'To' does not exist");
+
+    return;
+  }
+
+  const template = TEMPLATES.PORTFOLIO
+  const html = template(from, name, message);
+
+  try {
+    const sendGrid = SendGrid();
+    await sendGrid.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, html);
+
     res.send("OK");
   } catch (e) {
     next(e);
@@ -47,3 +60,4 @@ const sendMail = (
 };
 
 export { sendMail };
+
