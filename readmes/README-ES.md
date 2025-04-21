@@ -47,7 +47,6 @@ Para usarlo como servidor:
 Esta librería expone varias funciones para el envío de correos electrónicos. A continuación se detallan las funciones disponibles:
 
 - `TEMPLATES`: Un objeto que contiene las plantillas de correo electrónico disponibles. Cada plantilla tiene un nombre y una función asociada que genera el contenido del correo electrónico.
-- `buildTemplate`: Una función que toma un nombre de plantilla y un objeto de datos y genera el contenido del correo electrónico utilizando la plantilla correspondiente.
 - `getCodingFlavourEmail`: Una función que devuelve la dirección de correo electrónico de Coding Flavour, utilizada para enviar correos electrónicos.
 - `SendGrid`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de SendGrid.
   - `sendEmail`: Una función que toma un objeto de correo electrónico y lo envía a través de SendGrid.

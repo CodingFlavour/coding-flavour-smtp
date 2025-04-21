@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getCodingFlavourEmail } from "../helpers/emailHelper";
-import { getTemplate, TEMPLATES } from "../helpers/templatesHelper";
 import SendGrid from "../services/emailService";
+import TEMPLATES from "../helpers/templatesHelper";
 
 interface IEmailRequestParams {
   from: string;
@@ -26,6 +26,12 @@ const sendMail = async (
     return;
   }
 
+  if (typeof from !== "string" || typeof to !== "string") {
+    res.send("Invalid body params");
+    next();
+    return;
+  }
+
   if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
     res.send("Not valid 'From' email");
     next();
@@ -40,11 +46,12 @@ const sendMail = async (
     return;
   }
 
-  const template = getTemplate(TEMPLATES.PORTFOLIO, from, name, message);
+  const template = TEMPLATES.PORTFOLIO
+  const html = template(from, name, message);
 
   try {
     const sendGrid = SendGrid();
-    await sendGrid.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, template);
+    await sendGrid.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, html);
 
     res.send("OK");
   } catch (e) {

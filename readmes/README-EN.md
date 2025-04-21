@@ -44,7 +44,6 @@ To use it as a server:
 
 This library exposes several functions for sending emails. The available functions are detailed below:
 - `TEMPLATES`: An object that contains the available email templates. Each template has a name and an associated function that generates the content of the email.
-- `buildTemplate`: A function that takes a template name and a data object and generates the content of the email using the corresponding template.
 - `getCodingFlavourEmail`: A function that returns the Coding Flavour email address, used for sending emails.
 - `SendGrid`: An object that contains the configuration and functions necessary to send emails through SendGrid.
   - `sendEmail`: A function that takes an email object and sends it through SendGrid.
