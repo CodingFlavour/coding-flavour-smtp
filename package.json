@@ -1,6 +1,6 @@
 {
   "name": "coding-flavour-smtp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./index.ts",
   "bin": "./src/app.ts",
   "scripts": {
