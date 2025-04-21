@@ -11,7 +11,7 @@ Tags:
 - 💅 Polish
 
 ---
-## [v1.0.1](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.0.1) (19-04-2025)
+## [v1.0.1](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.0.1) (21-04-2025)
 
 #### 🚀 New feature
 
