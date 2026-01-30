@@ -49,15 +49,18 @@ Esta librería expone varias funciones para el envío de correos electrónicos. 
 
 - `TEMPLATES`: Un objeto que contiene las plantillas de correo electrónico disponibles. Cada plantilla tiene un nombre y una función asociada que genera el contenido del correo electrónico.
 - `getCodingFlavourEmail`: Una función que devuelve la dirección de correo electrónico de Coding Flavour, utilizada para enviar correos electrónicos.
-- `SendGrid`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de SendGrid.
-  - `sendEmail`: Una función que toma un objeto de correo electrónico y lo envía a través de SendGrid.
+- `ResendService`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de Resend (servicio por defecto).
+  - `sendMail`: Una función que toma los parámetros del correo electrónico y lo envía a través de Resend.
+- `SendGrid`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de SendGrid (mantenido para compatibilidad).
+  - `sendMail`: Una función que toma los parámetros del correo electrónico y lo envía a través de SendGrid.
 
 ## ¿Qué ofrece este conjunto de herramientas?
 
 Con esta herramienta se quiere ofrecer una solución para la gestión de correos electrónicos en Coding Flavour. Se busca centralizar la gestión de correos electrónicos y facilitar su uso a través de una API sencilla y fácil de usar.
 
 - Generación de plantillas de correos electrónicos.
-- Envío de correos electrónicos a través de SendGrid.
+- Envío de correos electrónicos a través de Resend (servicio por defecto).
+- Envío de correos electrónicos a través de SendGrid (mantenido para compatibilidad).
 - Posibilidad de personalizar las plantillas de correo electrónico.
 
 ## YAML

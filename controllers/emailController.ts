@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getCodingFlavourEmail } from "../helpers/emailHelper";
-import SendGrid from "../services/emailService";
+import ResendService from "../services/resendService";
 import TEMPLATES from "../helpers/templatesHelper";
 
 interface IEmailRequestParams {
@@ -50,12 +50,12 @@ const sendMail = async (
   const html = template(from, name, message);
 
   try {
-    const sendGrid = SendGrid();
-    await sendGrid.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, html);
+    const resendService = ResendService();
+    await resendService.sendMail(codingFlavourEmail, PORTFOLIO_SUBJECT, html);
 
     res.send("OK");
   } catch (e) {
-    next(e);
+    res.send("Error sending email");
   }
 };
 

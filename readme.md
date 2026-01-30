@@ -1,4 +1,4 @@
 # Coding Flavour SMTP
 
-- Lee la documentación en [español](readmes/README-ES.md)
-- Read the documentation in [english](readmes/README-EN.md)
+- Lee la documentación en [español](docs/README/README-ES.md)
+- Read the documentation in [english](docs/README/README-EN.md)
