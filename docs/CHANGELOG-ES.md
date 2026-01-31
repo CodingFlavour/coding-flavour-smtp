@@ -1,5 +1,9 @@
 # Registro de cambios
 
+## 💅 [1.1.1](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.1)
+
+- Actualizadas dependencias del proyecto.
+
 ## 🚀 [1.1.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.0)
 
 - Añadida integración con Gmail usando nodemailer con autenticación 2FA.
