@@ -13,7 +13,7 @@ interface IEmailRequestParams {
   templateKey?: string;
 }
 
-const logger = Logger('SMPT Email Controller');
+const logger = Logger('SMTP Email Controller');
 
 const sendMail = async (
   req: Request<IEmailRequestParams>,

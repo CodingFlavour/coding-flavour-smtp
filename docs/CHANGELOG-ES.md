@@ -1,4 +1,11 @@
+
 # Registro de cambios
+
+## 💅 [1.1.2](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.2)
+
+- Añadida batería de tests unitarios para emailController, emailValidations y gmailService.
+- Añadido mock de Express para tests.
+- Mejorada configuración TypeScript y build ESM para despliegue.
 
 ## 💅 [1.1.1](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.1)
 
