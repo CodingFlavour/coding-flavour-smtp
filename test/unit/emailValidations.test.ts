@@ -1,5 +1,6 @@
 import { validateRequiredParams, validateOptionalParams } from '../../controllers/validations/emailValidations';
 import * as emailHelper from '../../helpers/emailHelper';
+import { Options } from '../../helpers/options';
 
 describe('Email Validations Test Suite', () => {
     describe('validateRequiredParams', () => {
@@ -24,7 +25,7 @@ describe('Email Validations Test Suite', () => {
             // Then
             expect(result).toEqual({
                 from: 'user@example.com',
-                to: 'dsanchez'
+                to: 'test@codingflavour.com'
             });
             expect(result.error).toBeUndefined();
         });
@@ -135,7 +136,7 @@ describe('Email Validations Test Suite', () => {
         it('should return provided values when all optional params are given', () => {
             // Given
             const intake = {
-                templateKey: 'TICKET_CREATED',
+                templateKey: Options.WISE_SEEKER,
                 name: 'John Doe',
                 message: 'Test message'
             };
@@ -145,7 +146,7 @@ describe('Email Validations Test Suite', () => {
 
             // Then
             expect(result).toEqual({
-                templateKey: 'TICKET_CREATED',
+                templateKey: Options.WISE_SEEKER,
                 name: 'John Doe',
                 message: 'Test message'
             });
@@ -161,8 +162,8 @@ describe('Email Validations Test Suite', () => {
 
             // Then
             expect(result).toEqual({
-                templateKey: 'PORTFOLIO',
-                name: 'No Name',
+                templateKey: Options.PORTFOLIO,
+                name: undefined,
                 message: ''
             });
             expect(result.error).toBeUndefined();
@@ -178,23 +179,23 @@ describe('Email Validations Test Suite', () => {
             const result = validateOptionalParams(intake);
 
             // Then
-            expect(result.templateKey).toBe('PORTFOLIO');
+            expect(result.templateKey).toBe(Options.PORTFOLIO);
             expect(result.name).toBe('John Doe');
             expect(result.error).toBeUndefined();
         });
 
-        it('should use default name when name is undefined', () => {
+        it('should not use any name when name is undefined', () => {
             // Given
             const intake = {
-                templateKey: 'TICKET_CREATED'
+                templateKey: Options.WISE_SEEKER
             };
 
             // When
             const result = validateOptionalParams(intake);
 
             // Then
-            expect(result.templateKey).toBe('TICKET_CREATED');
-            expect(result.name).toBe('No Name');
+            expect(result.templateKey).toBe(Options.WISE_SEEKER);
+            expect(result.name).toBeUndefined();
             expect(result.error).toBeUndefined();
         });
 
@@ -210,7 +211,7 @@ describe('Email Validations Test Suite', () => {
 
             // Then
             expect(result.error).toBe('Invalid template key');
-            expect(result.templateKey).toBe(123);
+            expect(result.templateKey).toBe(Options.PORTFOLIO);
         });
 
         it('should use empty string as valid templateKey', () => {
@@ -224,14 +225,14 @@ describe('Email Validations Test Suite', () => {
             const result = validateOptionalParams(intake);
 
             // Then
-            expect(result.templateKey).toBe('PORTFOLIO');
+            expect(result.templateKey).toBe(Options.PORTFOLIO);
             expect(result.error).toBeUndefined();
         });
 
-        it('should use empty string as valid name', () => {
+        it('should not use empty string as valid name', () => {
             // Given
             const intake = {
-                templateKey: 'PORTFOLIO',
+                templateKey: Options.PORTFOLIO,
                 name: ''
             };
 
@@ -239,8 +240,7 @@ describe('Email Validations Test Suite', () => {
             const result = validateOptionalParams(intake);
 
             // Then
-            expect(result.name).toBe('No Name');
-            expect(result.error).toBeUndefined();
+            expect(result.error).toBe('Invalid body params');
         });
     });
 });

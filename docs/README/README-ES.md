@@ -58,7 +58,7 @@ Esta librería expone varias funciones para el envío de correos electrónicos. 
 
 Al usar el servicio como servidor, puedes controlar dinámicamente el template y subject del email mediante el siguiente parámetro opcional en el request:
 
-- `templateKey`: Clave del template y subject a usar (ej: 'PORTFOLIO', 'TICKET_CREATED'). Por defecto: 'PORTFOLIO'
+- `templateKey`: Clave del template y subject a usar (ej: 'PORTFOLIO', 'WISE_SEEKER'). Por defecto: 'PORTFOLIO'
 
 ## ¿Qué ofrece este conjunto de herramientas?
 

@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import SUBJECTS, { isSubjectKey } from "../helpers/subjectsHelper";
-import TEMPLATES, { isTemplateKey } from "../helpers/templatesHelper";
+import { Request, Response } from "express";
+import SUBJECTS from "../helpers/subjectsHelper";
+import TEMPLATES from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
 import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
+import Logger from "@coding-flavour/logger";
 
 interface IEmailRequestParams {
   from: string;
@@ -12,11 +13,11 @@ interface IEmailRequestParams {
   templateKey?: string;
 }
 
+const logger = Logger('SMPT Email Controller');
 
 const sendMail = async (
   req: Request<IEmailRequestParams>,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
   const { from, to, name, message, templateKey } = req.body;
 
@@ -32,6 +33,7 @@ const sendMail = async (
 
   if (optionalParams.error) {
     res.send(optionalParams.error);
+
     return;
   }
 
@@ -49,15 +51,11 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   const { from } = requiredParams;
   const { templateKey, message } = optionalParams;
 
-  if (!isTemplateKey(templateKey) || !isSubjectKey(templateKey)) {
-    return "Invalid template key";
-  }
-
   const template = TEMPLATES[templateKey];
   const subject = SUBJECTS[templateKey];
 
   const html = template(from, message, {
-    name: optionalParams.name || 'No Name'
+    name: optionalParams.name
   });
 
   try {
@@ -65,6 +63,8 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
 
     await gmailService.sendMail(requiredParams.to, subject, html);
   } catch (e) {
+    logger.error("Error sending email", { error: e });
+
     return "Error sending email";
   }
 }

@@ -1,11 +1,12 @@
-const isSubjectKey = (key: string): key is keyof typeof SUBJECTS => {
+import { Options } from "./options";
+
+const isSubjectKey = (key: string): key is Options => {
   return Object.keys(SUBJECTS).includes(key);
 }
 
-const SUBJECTS = {
-    PORTFOLIO: 'Portfolio contact',
-    WISE_SEEKER: 'Solicitud Wise Seeker',
-    DEFAULT: 'Coding Flavour Email',
+const SUBJECTS: Record<Options, string> = {
+    [Options.PORTFOLIO]: 'Portfolio contact',
+    [Options.WISE_SEEKER]: 'Solicitud Wise Seeker'
 };
 
 export default SUBJECTS;
