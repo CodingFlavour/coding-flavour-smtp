@@ -1,20 +1,25 @@
-const getTicketCreatedTemplate = (ticketId: number, pass?: string) => {
-  return `Hello!
-    Your ticket has been created successfully.
+import { Options } from "./options";
 
-    You can refer to the ticket ID "${ticketId}" for any further queries.
-    ${pass ? `Your pass to access the ticket is: ${pass}` : ""}
+type TemplateFunction = (from: string, message: string, options: { name: string }) => string;
 
-    Thank you for using our service!`;
+const isTemplateKey = (key: string): key is Options => {
+  return Object.keys(TEMPLATES).includes(key);
 }
 
-const getPortfolioTemplate = (from: string, name: string, message: string) => {
+const getPortfolioTemplate: TemplateFunction = (from, message, { name }) => {
   return `From ${name} - ${from} \n\n ${message}`;
 }
 
-const TEMPLATES = {
-  TICKET_CREATED: getTicketCreatedTemplate,
-  PORTFOLIO: getPortfolioTemplate
+const getWiseSeekerTemplate: TemplateFunction = (from, _message, _options) => {
+  return `Wise Seeker Request from ${from}`;
+}
+
+const TEMPLATES: Record<Options, TemplateFunction> = {
+  [Options.PORTFOLIO]: getPortfolioTemplate,
+  [Options.WISE_SEEKER]: getWiseSeekerTemplate,
 }
 
 export default TEMPLATES;
+export {
+  isTemplateKey
+}
