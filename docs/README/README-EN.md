@@ -53,11 +53,9 @@ This library exposes several functions for sending emails. The available functio
 
 ### As a server
 
-When using the service as a server, you can dynamically control the email template and subject through the following optional request parameters:
+When using the service as a server, you can dynamically control the email template and subject through the following optional request parameter:
 
-- `templateKey`: Template key to use (e.g., 'PORTFOLIO', 'TICKET_CREATED'). Default: 'PORTFOLIO'
-- `subjectKey`: Subject key to use (e.g., 'PORTFOLIO', 'TICKET_CREATED'). Default: 'PORTFOLIO'
-- `templateData`: Data for the template (if not sent, uses from, name, message)
+- `templateKey`: Template and subject key to use (e.g., 'PORTFOLIO', 'TICKET_CREATED'). Default: 'PORTFOLIO'
 
 ## What does this toolset offer?
 

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { getCodingFlavourEmail } from "../helpers/emailHelper";
+import SUBJECTS, { isSubjectKey } from "../helpers/subjectsHelper";
+import TEMPLATES, { isTemplateKey } from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
-import TEMPLATES from "../helpers/templatesHelper";
-import SUBJECTS from "../helpers/subjectsHelper";
+import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
 
 interface IEmailRequestParams {
   from: string;
@@ -10,74 +10,64 @@ interface IEmailRequestParams {
   name: string;
   message: string;
   templateKey?: string;
-  subjectKey?: string;
-  templateData?: any;
 }
 
-const REGEX_EMAIL_VALIDATOR = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const sendMail = async (
   req: Request<IEmailRequestParams>,
   res: Response,
   next: NextFunction
 ) => {
-  const { from, to, name, message, templateKey, subjectKey, templateData } = req.body;
+  const { from, to, name, message, templateKey } = req.body;
 
-  if (!name || !message) {
-    res.send("Empty body params");
+  const requireParams = validateRequiredParams({ from, to });
 
-    return;
-  }
-
-  if (typeof from !== "string" || typeof to !== "string") {
-    res.send("Invalid body params");
+  if (requireParams.error) {
+    res.send(requireParams.error);
 
     return;
   }
 
-  if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
-    res.send("Not valid 'From' email");
+  const optionalParams = validateOptionalParams({ templateKey, name, message });
 
+  if (optionalParams.error) {
+    res.send(optionalParams.error);
     return;
   }
 
-  const codingFlavourEmail = getCodingFlavourEmail(to);
+  const errorSendingMail = await trySendMail(requireParams, optionalParams);
 
-  if (!codingFlavourEmail) {
-    res.send("'To' does not exist");
-
+  if (errorSendingMail) {
+    res.send(errorSendingMail);
     return;
   }
 
-  const templateKeyToUse = templateKey || 'PORTFOLIO';
-  const subjectKeyToUse = subjectKey || 'PORTFOLIO';
+  res.send("OK");
+};
 
-  const template = TEMPLATES[templateKeyToUse as keyof typeof TEMPLATES];
-  const subject = SUBJECTS[subjectKeyToUse as keyof typeof SUBJECTS];
+const trySendMail = async (requiredParams: RequireParams, optionalParams: OptionalParams) => {
+  const { from } = requiredParams;
+  const { templateKey, message } = optionalParams;
 
-  if (!template) {
-    res.send("Invalid template key");
-    return;
+  if (!isTemplateKey(templateKey) || !isSubjectKey(templateKey)) {
+    return "Invalid template key";
   }
 
-  if (!subject) {
-    res.send("Invalid subject key");
-    return;
-  }
+  const template = TEMPLATES[templateKey];
+  const subject = SUBJECTS[templateKey];
 
-  const html = templateData 
-    ? template(...Object.values(templateData))
-    : template(from, name, message);
+  const html = template(from, message, {
+    name: optionalParams.name || 'No Name'
+  });
 
   try {
     const gmailService = GmailService();
-    await gmailService.sendMail(codingFlavourEmail, subject, html);
 
-    res.send("OK");
+    await gmailService.sendMail(requiredParams.to, subject, html);
   } catch (e) {
-    next(e);
+    return "Error sending email";
   }
-};
+}
 
 export { sendMail };
 
