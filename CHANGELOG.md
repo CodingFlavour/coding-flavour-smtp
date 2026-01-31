@@ -1,14 +1,7 @@
-# Changelog
+# Coding Flavour SMTP Changelog
 
-Tags:
-
-- 🔥 Breaking change
-- ⏰ Deprecation
-- 🚀 New feature
-- 🐛 Bug fix
-- 📘 Documentation
-- 🏠 Internal
-- 💅 Polish
+- Lee el registro de cambios en [español](docs/CHANGELOG-ES.md)
+- Read changelogs in [english](docs/CHANGELOG-EN.md)
 
 ---
 ## [v1.0.1](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.0.1) (21-04-2025)
