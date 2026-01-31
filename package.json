@@ -1,13 +1,13 @@
 {
   "name": "coding-flavour-smtp",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "./index.ts",
   "bin": "./src/app.ts",
   "scripts": {
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "jest test/unit --silent",
     "test:integration": "jest test/integration --silent",
-    "dev": "nodemon ./src/app.ts",
+    "dev": "ts-node ./src/app.ts",
     "preprod": "ts-node ./src/app.ts --transpile-only",
     "companion:install": "tsx -r tsconfig-paths/register ./node_modules/@coding-flavour/companion/src/bin/companion.ts install"
   },

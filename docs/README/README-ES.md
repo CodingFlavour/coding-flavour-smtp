@@ -47,11 +47,20 @@ Para usarlo como servidor:
 Esta librería expone varias funciones para el envío de correos electrónicos. A continuación se detallan las funciones disponibles:
 
 - `TEMPLATES`: Un objeto que contiene las plantillas de correo electrónico disponibles. Cada plantilla tiene un nombre y una función asociada que genera el contenido del correo electrónico.
+- `SUBJECTS`: Un objeto que contiene los asuntos predefinidos para los correos electrónicos.
 - `getCodingFlavourEmail`: Una función que devuelve la dirección de correo electrónico de Coding Flavour, utilizada para enviar correos electrónicos.
 - `GmailService`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de Gmail con nodemailer (servicio por defecto).
   - `sendMail`: Una función que toma los parámetros del correo electrónico y lo envía a través de Gmail.
 - `SendGrid`: Un objeto que contiene la configuración y las funciones necesarias para enviar correos electrónicos a través de SendGrid (mantenido para compatibilidad).
   - `sendMail`: Una función que toma los parámetros del correo electrónico y lo envía a través de SendGrid.
+
+### Como servidor
+
+Al usar el servicio como servidor, puedes controlar dinámicamente el template y subject del email mediante los siguientes parámetros opcionales en el request:
+
+- `templateKey`: Clave del template a usar (ej: 'PORTFOLIO', 'TICKET_CREATED'). Por defecto: 'PORTFOLIO'
+- `subjectKey`: Clave del asunto a usar (ej: 'PORTFOLIO', 'TICKET_CREATED'). Por defecto: 'PORTFOLIO'
+- `templateData`: Datos para el template (si no se envía, usa from, name, message)
 
 ## ¿Qué ofrece este conjunto de herramientas?
 

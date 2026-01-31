@@ -1,5 +1,12 @@
 # Changelog
 
+## 🚀 [1.2.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.2.0)
+
+- Added functionality to dynamically control email subject and template.
+- New optional parameters in request: `templateKey`, `subjectKey` and `templateData`.
+- Created `SUBJECTS` helper to manage predefined subjects.
+- Maintains backward compatibility with 'PORTFOLIO' default values.
+
 ## 🚀 [1.1.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.0)
 
 - Added Gmail integration using nodemailer with 2FA authentication.

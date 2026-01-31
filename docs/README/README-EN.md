@@ -44,11 +44,20 @@ To use it as a server:
 
 This library exposes several functions for sending emails. The available functions are detailed below:
 - `TEMPLATES`: An object that contains the available email templates. Each template has a name and an associated function that generates the content of the email.
+- `SUBJECTS`: An object that contains the predefined subjects for emails.
 - `getCodingFlavourEmail`: A function that returns the Coding Flavour email address, used for sending emails.
 - `GmailService`: An object that contains the configuration and functions necessary to send emails through Gmail with nodemailer (default service).
   - `sendMail`: A function that takes email parameters and sends it through Gmail.
 - `SendGrid`: An object that contains the configuration and functions necessary to send emails through SendGrid (maintained for compatibility).
   - `sendMail`: A function that takes email parameters and sends it through SendGrid.
+
+### As a server
+
+When using the service as a server, you can dynamically control the email template and subject through the following optional request parameters:
+
+- `templateKey`: Template key to use (e.g., 'PORTFOLIO', 'TICKET_CREATED'). Default: 'PORTFOLIO'
+- `subjectKey`: Subject key to use (e.g., 'PORTFOLIO', 'TICKET_CREATED'). Default: 'PORTFOLIO'
+- `templateData`: Data for the template (if not sent, uses from, name, message)
 
 ## What does this toolset offer?
 
