@@ -1,5 +1,10 @@
 
+
 # Changelog
+
+## 🔥 [1.2.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.2.0)
+
+- For security, removed EMAIL_DEFAULT fallback in getCodingFlavourEmail: now only explicit team members are allowed as recipients. If the recipient is not valid, the endpoint fails.
 
 ## 💅 [1.1.2](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.2)
 

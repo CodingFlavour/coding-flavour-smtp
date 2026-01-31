@@ -1,5 +1,10 @@
 
+
 # Registro de cambios
+
+## 🔥 [1.2.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.2.0)
+
+- Por seguridad, se elimina el fallback EMAIL_DEFAULT en getCodingFlavourEmail: ahora solo se permite enviar a miembros explícitos del equipo. Si el destinatario no es válido, el endpoint falla.
 
 ## 💅 [1.1.2](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.1.2)
 
