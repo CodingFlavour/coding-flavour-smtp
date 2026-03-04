@@ -55,7 +55,7 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   const subject = SUBJECTS[templateKey];
 
   const html = template(from, message, {
-    name: optionalParams.name
+    ...optionalParams
   });
 
   try {
@@ -70,5 +70,5 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   }
 }
 
-export { sendMail };
+export { sendMail, trySendMail };
 

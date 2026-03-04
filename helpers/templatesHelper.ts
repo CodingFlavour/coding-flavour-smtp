@@ -1,6 +1,9 @@
 import { Options } from "./options";
 
-type TemplateFunction = (from: string, message: string, options: { name: string }) => string;
+type TemplateFunction = (
+  from: string,
+  message: string,
+  options: { [key: string]: string }) => string;
 
 const isTemplateKey = (key: string): key is Options => {
   return Object.keys(TEMPLATES).includes(key);
@@ -10,13 +13,18 @@ const getPortfolioTemplate: TemplateFunction = (from, message, { name }) => {
   return `From ${name} - ${from} \n\n ${message}`;
 }
 
-const getWiseSeekerTemplate: TemplateFunction = (from, _message, _options) => {
-  return `Wise Seeker Request from ${from}`;
+const getKeenlyTemplate: TemplateFunction = (from, _message, _options) => {
+  return `Keenly Request from ${from}`;
+}
+
+const getKenlyFeedbackTemplate: TemplateFunction = (from, message, { issue }) => {
+  return `Issue: ${issue}<br />Details: ${message}<br />User email: ${from}`;
 }
 
 const TEMPLATES: Record<Options, TemplateFunction> = {
   [Options.PORTFOLIO]: getPortfolioTemplate,
-  [Options.WISE_SEEKER]: getWiseSeekerTemplate,
+  [Options.KEENLY]: getKeenlyTemplate,
+  [Options.KEENLY_FEEDBACK]: getKenlyFeedbackTemplate
 }
 
 export default TEMPLATES;

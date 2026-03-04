@@ -1,4 +1,5 @@
 export enum Options {
   PORTFOLIO = "portfolio",
-  WISE_SEEKER = "wise_seeker"
+  KEENLY = "keenly",
+  KEENLY_FEEDBACK = "keenly_feedback"
 }
