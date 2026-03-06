@@ -36,7 +36,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@coding-flavour/companion": "^1.2.1",
+    "@coding-flavour/companion": "1.5.1-alpha.0",
     "@types/nodemailer": "^7.0.9"
   }
 }
