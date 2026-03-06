@@ -1,6 +1,6 @@
 {
   "name": "coding-flavour-smtp",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "main": "./index.ts",
   "bin": "./src/app.ts",
   "type": "module",
@@ -19,7 +19,6 @@
   "license": "ISC",
   "description": "SMTP service for Coding Flavour",
   "dependencies": {
-    "@coding-flavour/companion": "^1.2.1",
     "@sendgrid/mail": "^7.7.0",
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.17",
@@ -37,6 +36,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@coding-flavour/companion": "^1.2.1",
     "@types/nodemailer": "^7.0.9"
   }
 }
