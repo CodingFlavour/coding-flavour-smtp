@@ -2,6 +2,28 @@
 
 # Registro de cambios
 
+## [2.0.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/2.0.0) - 2026-03-27
+
+#### 🚀 Nuevas características
+
+- Añadidos templates para Keenly, Keenly Feedback, Family Vault Invitation y Control Panel Invitation.
+- `trySendMail` ahora se exporta desde el punto de entrada de la librería.
+- `TemplateFunction` acepta un objeto de opciones flexible (`{ [key: string]: string }`) en lugar de `{ name: string }`.
+
+#### 🔥 Eliminaciones
+
+- Template, opción y subject de `WISE_SEEKER` eliminados.
+- Batería de tests unitarios eliminada.
+
+#### 💅 Pulido interno
+
+- Logger de `@coding-flavour/logger` activado en el controlador (estaba comentado).
+- Paquete renombrado a `@coding-flavour/smtp`.
+
+#### 📦 Dependencias
+
+- `nodemailer` promovido a dependencia de producción.
+
 ## 🔥 [1.2.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/1.2.0)
 
 - Por seguridad, se elimina el fallback EMAIL_DEFAULT en getCodingFlavourEmail: ahora solo se permite enviar a miembros explícitos del equipo. Si el destinatario no es válido, el endpoint falla.

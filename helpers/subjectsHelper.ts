@@ -6,7 +6,10 @@ const isSubjectKey = (key: string): key is Options => {
 
 const SUBJECTS: Record<Options, string> = {
     [Options.PORTFOLIO]: 'Portfolio contact',
-    [Options.WISE_SEEKER]: 'Solicitud Wise Seeker'
+    [Options.KEENLY]: 'Solicitud de Keenly',
+    [Options.KEENLY_FEEDBACK]: 'Keenly Feedback',
+    [Options.FAMILY_VAULT_INVITATION]: 'Invitación a Family Vault',
+    [Options.CONTROL_PANEL_INVITATION]: 'Invitación a Control Panel'
 };
 
 export default SUBJECTS;

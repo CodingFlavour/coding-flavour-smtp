@@ -1,9 +1,9 @@
+import Logger from "@coding-flavour/logger";
 import { Request, Response } from "express";
 import SUBJECTS from "../helpers/subjectsHelper";
 import TEMPLATES from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
 import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
-// import Logger from "@coding-flavour/logger";
 
 interface IEmailRequestParams {
   from: string;
@@ -13,13 +13,13 @@ interface IEmailRequestParams {
   templateKey?: string;
 }
 
-// const logger = Logger('SMTP Email Controller');
+const logger = Logger('SMTP Email Controller');
 
 const sendMail = async (
   req: Request<IEmailRequestParams>,
   res: Response
 ) => {
-  const { from, to, name, message, templateKey } = req.body;
+  const { from, to, name, message, templateKey, ...rest } = req.body;
 
   const requireParams = validateRequiredParams({ from, to });
 
@@ -29,7 +29,7 @@ const sendMail = async (
     return;
   }
 
-  const optionalParams = validateOptionalParams({ templateKey, name, message });
+  const optionalParams = validateOptionalParams({ templateKey, name, message, ...rest });
 
   if (optionalParams.error) {
     res.send(optionalParams.error);
@@ -55,7 +55,7 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   const subject = SUBJECTS[templateKey];
 
   const html = template(from, message, {
-    name: optionalParams.name
+    ...optionalParams
   });
 
   try {
@@ -63,12 +63,11 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
 
     await gmailService.sendMail(requiredParams.to, subject, html);
   } catch (e) {
-    // logger.error("Error sending email", { error: e });
-    console.error("Error sending email", e)
-    
+    logger.error("Error sending email", { error: e });
+
     return "Error sending email";
   }
 }
 
-export { sendMail };
+export { sendMail, trySendMail };
 

@@ -20,12 +20,14 @@ type OptionalParamsIntake = {
   templateKey?: any;
   name?: any;
   message?: any;
+  [key: string]: any;
 }
 
 export type OptionalParams = {
   templateKey: Options;
   name: string;
   message: string;
+  [key: string]: any;
 } & WithError
 
 const withError = <T>(intake: T, err: string) => ({ ...intake, error: err });
@@ -57,7 +59,7 @@ const validateRequiredParams = (intake: RequireParamsIntake): RequireParams => {
 }
 
 const validateOptionalParams = (intake: OptionalParamsIntake): OptionalParams => {
-  const { templateKey, name, message } = intake;
+  const { templateKey, name, message, ...rest } = intake;
 
   const templateKeyToUse = templateKey || Options.PORTFOLIO;
   const messageToUse = message || '';
@@ -77,6 +79,7 @@ const validateOptionalParams = (intake: OptionalParamsIntake): OptionalParams =>
   }
 
   return {
+    ...rest,
     templateKey: templateKeyToUse,
     name,
     message: messageToUse
