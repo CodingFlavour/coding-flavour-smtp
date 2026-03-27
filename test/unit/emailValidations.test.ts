@@ -136,7 +136,7 @@ describe('Email Validations Test Suite', () => {
         it('should return provided values when all optional params are given', () => {
             // Given
             const intake = {
-                templateKey: Options.WISE_SEEKER,
+                templateKey: Options.KEENLY,
                 name: 'John Doe',
                 message: 'Test message'
             };
@@ -146,7 +146,7 @@ describe('Email Validations Test Suite', () => {
 
             // Then
             expect(result).toEqual({
-                templateKey: Options.WISE_SEEKER,
+                templateKey: Options.KEENLY,
                 name: 'John Doe',
                 message: 'Test message'
             });
@@ -187,14 +187,14 @@ describe('Email Validations Test Suite', () => {
         it('should not use any name when name is undefined', () => {
             // Given
             const intake = {
-                templateKey: Options.WISE_SEEKER
+                templateKey: Options.KEENLY
             };
 
             // When
             const result = validateOptionalParams(intake);
 
             // Then
-            expect(result.templateKey).toBe(Options.WISE_SEEKER);
+            expect(result.templateKey).toBe(Options.KEENLY);
             expect(result.name).toBeUndefined();
             expect(result.error).toBeUndefined();
         });

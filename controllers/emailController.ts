@@ -19,7 +19,7 @@ const sendMail = async (
   req: Request<IEmailRequestParams>,
   res: Response
 ) => {
-  const { from, to, name, message, templateKey } = req.body;
+  const { from, to, name, message, templateKey, ...rest } = req.body;
 
   const requireParams = validateRequiredParams({ from, to });
 
@@ -29,7 +29,7 @@ const sendMail = async (
     return;
   }
 
-  const optionalParams = validateOptionalParams({ templateKey, name, message });
+  const optionalParams = validateOptionalParams({ templateKey, name, message, ...rest });
 
   if (optionalParams.error) {
     res.send(optionalParams.error);

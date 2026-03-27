@@ -1,21 +1,21 @@
-// jest.mock('@coding-flavour/logger', () => ({
-//   __esModule: true,
-//   default: () => ({
-//     log: jest.fn(),
-//     error: jest.fn(),
-//     warn: jest.fn(),
-//     debug: jest.fn(),
-//     board: jest.fn(),
-//     setLoggerPrefix: jest.fn(),
-//     resetTabulation: jest.fn(),
-//     setDebugMode: jest.fn(),
-//     resetStartTime: jest.fn(),
-//     getTimeElapsed: jest.fn(),
-//     setLogFile: jest.fn(),
-//     resetLogFile: jest.fn(),
-//     ln: jest.fn(),
-//   })
-// }));
+jest.mock('@coding-flavour/logger', () => ({
+  __esModule: true,
+  default: () => ({
+    log: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+    board: jest.fn(),
+    setLoggerPrefix: jest.fn(),
+    resetTabulation: jest.fn(),
+    setDebugMode: jest.fn(),
+    resetStartTime: jest.fn(),
+    getTimeElapsed: jest.fn(),
+    setLogFile: jest.fn(),
+    resetLogFile: jest.fn(),
+    ln: jest.fn(),
+  })
+}));
 
 import { sendMail } from '../../controllers/emailController';
 import { Options } from '../../helpers/options';
@@ -90,12 +90,12 @@ describe('emailController sendMail Test Suite', () => {
     expect(Response.send).toHaveBeenCalledWith('OK');
   });
 
-  it('should call GmailService.sendMail with correct params for wise_seeker', async () => {
+  it('should call GmailService.sendMail with correct params for keenly', async () => {
     // Given
     const { Request, Response } = mockExpress({
       body: {
         ...BASE_BODY.body,
-        templateKey: Options.WISE_SEEKER,
+        templateKey: Options.KEENLY,
       }
     });
     sendMailMock.mockResolvedValue({ success: true });
@@ -106,8 +106,8 @@ describe('emailController sendMail Test Suite', () => {
     // Then
     expect(sendMailMock).toHaveBeenCalledWith(
       TO,
-      SUBJECTS[Options.WISE_SEEKER],
-      TEMPLATES[Options.WISE_SEEKER](FROM, MESSAGE, { name: NAME })
+      SUBJECTS[Options.KEENLY],
+      TEMPLATES[Options.KEENLY](FROM, MESSAGE, {})
     );
     expect(Response.send).toHaveBeenCalledWith('OK');
   });
