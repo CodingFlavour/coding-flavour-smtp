@@ -28,7 +28,10 @@ https://familia.codingflavour.com/register?token=${uuid}`;
 }
 
 const controlPanelInvitation: TemplateFunction = (from, _message, { uuid, email }) => {
-  const link = `https://control-panel.codingflavour.com/auth/register?uuid=${uuid}&email=${email}`;
+  const baseUrl = "https://control-panel.codingflavour.com/auth/register";
+  const params = new URLSearchParams({ uuid, email });
+  const link = `${baseUrl}?${params.toString()}`;
+
   return `
 ¡Hola!
 <br /> <br />

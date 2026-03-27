@@ -50,12 +50,14 @@ describe('TEMPLATES Test Suite', () => {
       const from = 'admin@codingflavour.com';
       const uuid = 'def-456-ghi';
       const email = 'newuser@example.com';
+      const baseUrl = "https://control-panel.codingflavour.com/auth/register";
+      const params = new URLSearchParams({ uuid, email });
+      const expectedLink = `${baseUrl}?${params.toString()}`;
 
       // When
       const result = TEMPLATES[Options.CONTROL_PANEL_INVITATION](from, '', { uuid, email });
 
       // Then
-      const expectedLink = `https://control-panel.codingflavour.com/auth/register?uuid=${uuid}&email=${email}`;
       expect(result).toContain(expectedLink);
     });
 
@@ -63,7 +65,9 @@ describe('TEMPLATES Test Suite', () => {
       // Given
       const uuid = 'def-456-ghi';
       const email = 'newuser@example.com';
-      const expectedLink = `https://control-panel.codingflavour.com/auth/register?uuid=${uuid}&email=${email}`;
+      const baseUrl = "https://control-panel.codingflavour.com/auth/register";
+      const params = new URLSearchParams({ uuid, email });
+      const expectedLink = `${baseUrl}?${params.toString()}`;
 
       // When
       const result = TEMPLATES[Options.CONTROL_PANEL_INVITATION]('admin@codingflavour.com', '', { uuid, email });
