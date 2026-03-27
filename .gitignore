@@ -1,5 +1,13 @@
 .env
 node_modules
 .vscode
-.github
+.github/*
 dist
+# Coding Flavour .claude
+.claude
+
+# Coding Flavour CLAUDE.md
+CLAUDE.md
+
+!.github/workflows/
+!.github/workflows/**

@@ -1,9 +1,9 @@
+import Logger from "@coding-flavour/logger";
 import { Request, Response } from "express";
 import SUBJECTS from "../helpers/subjectsHelper";
 import TEMPLATES from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
 import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
-// import Logger from "@coding-flavour/logger";
 
 interface IEmailRequestParams {
   from: string;
@@ -13,7 +13,7 @@ interface IEmailRequestParams {
   templateKey?: string;
 }
 
-// const logger = Logger('SMTP Email Controller');
+const logger = Logger('SMTP Email Controller');
 
 const sendMail = async (
   req: Request<IEmailRequestParams>,
@@ -63,9 +63,8 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
 
     await gmailService.sendMail(requiredParams.to, subject, html);
   } catch (e) {
-    // logger.error("Error sending email", { error: e });
-    console.error("Error sending email", e)
-    
+    logger.error("Error sending email", { error: e });
+
     return "Error sending email";
   }
 }
