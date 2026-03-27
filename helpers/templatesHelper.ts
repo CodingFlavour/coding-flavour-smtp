@@ -17,7 +17,7 @@ const getKeenlyTemplate: TemplateFunction = (from, _message, _options) => {
   return `Keenly Request from ${from}`;
 }
 
-const getKenlyFeedbackTemplate: TemplateFunction = (from, message, { issue }) => {
+const getKeenlyFeedbackTemplate: TemplateFunction = (from, message, { issue }) => {
   return `Issue: ${issue}<br />Details: ${message}<br />User email: ${from}`;
 }
 
@@ -47,7 +47,7 @@ ${link}`;
 const TEMPLATES: Record<Options, TemplateFunction> = {
   [Options.PORTFOLIO]: getPortfolioTemplate,
   [Options.KEENLY]: getKeenlyTemplate,
-  [Options.KEENLY_FEEDBACK]: getKenlyFeedbackTemplate,
+  [Options.KEENLY_FEEDBACK]: getKeenlyFeedbackTemplate,
   [Options.FAMILY_VAULT_INVITATION]: getFamilyVaultInvitationTemplate,
   [Options.CONTROL_PANEL_INVITATION]: controlPanelInvitation
 }
