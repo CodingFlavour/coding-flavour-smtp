@@ -61,8 +61,7 @@ describe('emailController sendMail Test Suite', () => {
       ...OLD_ENV,
       EMAIL_DSANCHEZ: 'dsanchez@codingflavour.com',
       EMAIL_AMAYOR: 'amayor@codingflavour.com',
-      EMAIL_KOPEL: 'kopel@codingflavour.com',
-      EMAIL_DEFAULT: 'default@codingflavour.com',
+      EMAIL_KOPEL: 'kopel@codingflavour.com'
     };
   });
 
