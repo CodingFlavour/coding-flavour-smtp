@@ -41,7 +41,6 @@ const validateRequiredParams = (intake: RequireParamsIntake): RequireParams => {
     return withError(intake, "Invalid body params");
   }
 
-
   if (!RegExp(REGEX_EMAIL_VALIDATOR).exec(from)) {
     return withError(intake, "Not valid 'From' email");
   }

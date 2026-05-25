@@ -1,50 +1,45 @@
 import Logger from "@coding-flavour/logger";
-import { Request, Response } from "express";
 import SUBJECTS from "../helpers/subjectsHelper";
 import TEMPLATES from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
+import { EmailData } from "../types/Email";
 import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
-
-interface IEmailRequestParams {
-  from: string;
-  to: string;
-  name: string;
-  message: string;
-  templateKey?: string;
-}
 
 const logger = Logger('SMTP Email Controller');
 
-const sendMail = async (
-  req: Request<IEmailRequestParams>,
-  res: Response
-) => {
-  const { from, to, name, message, templateKey, ...rest } = req.body;
+interface SendEmailOptions {
+  dryRun?: boolean; // dryRun defaults to true. Sending must be an intentional action. Pass { dryRun: false } to send
+}
+
+const sendMail = async (emailData: EmailData, { dryRun = true }: SendEmailOptions) => {
+  const { from, to, name, message, templateKey, ...rest } = emailData;
 
   const requireParams = validateRequiredParams({ from, to });
 
   if (requireParams.error) {
-    res.send(requireParams.error);
+    logger.error("Error validating required params", { error: requireParams.error });
 
-    return;
+    throw new Error(requireParams.error);
   }
 
   const optionalParams = validateOptionalParams({ templateKey, name, message, ...rest });
 
   if (optionalParams.error) {
-    res.send(optionalParams.error);
+    logger.error("Error validating optional params", { error: optionalParams.error });
+
+    throw new Error(optionalParams.error);
+  }
+
+  if (dryRun !== false) {
+    logger.log("Dry run mode - Email not sent - Email content", {
+      ...requireParams,
+      ...optionalParams
+    });
 
     return;
   }
 
-  const errorSendingMail = await trySendMail(requireParams, optionalParams);
-
-  if (errorSendingMail) {
-    res.send(errorSendingMail);
-    return;
-  }
-
-  res.send("OK");
+  await trySendMail(requireParams, optionalParams);
 };
 
 const trySendMail = async (requiredParams: RequireParams, optionalParams: OptionalParams) => {
@@ -65,9 +60,10 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   } catch (e) {
     logger.error("Error sending email", { error: e });
 
-    return "Error sending email";
+    throw new Error("Error sending email");
   }
 }
 
-export { sendMail, trySendMail };
+export { EmailData };
+export default sendMail;
 
