@@ -2,7 +2,7 @@ import Logger from "@coding-flavour/logger";
 import SUBJECTS from "../helpers/subjectsHelper";
 import TEMPLATES from "../helpers/templatesHelper";
 import GmailService from "../services/gmailService";
-import { EmailData } from "../types/Email";
+import type { EmailData } from "../types/Email";
 import { OptionalParams, RequireParams, validateOptionalParams, validateRequiredParams } from "./validations/emailValidations";
 
 const logger = Logger('SMTP Email Controller');
@@ -64,6 +64,5 @@ const trySendMail = async (requiredParams: RequireParams, optionalParams: Option
   }
 }
 
-export { EmailData };
 export default sendMail;
 

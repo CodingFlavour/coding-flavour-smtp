@@ -6,4 +6,4 @@ interface EmailData {
   templateKey?: string;
 }
 
-export { EmailData };
+export type { EmailData };
