@@ -4,72 +4,126 @@
 
 ## What is it?
 
-Coding Flavour SMTP is a tool for centralizing emails in Coding Flavour. Any topic related to emails will have its functions here.
+Coding Flavour SMTP is the central email sending library of the Coding Flavour ecosystem. It centralizes templates, subjects, and sending logic so any project in the team can send emails without reimplementing anything.
 
-## How to install it?
+It does not expose any HTTP server. It is a pure consumption library.
 
-### Programmatically
-#### Local
-To use it locally:
-- Clone the repository
-- Install the root dependencies: `npm i`
-- Link the project through NPM Link, executing in the root: `npm link`
-- In any other project, link `smtp` with `npm link @coding-flavour/smtp`
-
-In this point, you can already import the SMTP in your project from `node_modules`
-
-#### Artifactory
-
-To use it with _Artifactory_:
-
-- Have the _Artifactory_ server active
-- Add to the dependencies of the `package.json` of the consumer the library of `smtp`: `@coding-flavour/smtp: "1.0.0"`
-- Install the dependencies: `npm i`
-
-In this point, you can already import the SMTP in your project from `node_modules`
-
-### As a server
-
-To use it as a server:
-
-- Clone the repository
-- Install the root dependencies: `npm i`
-- Create a _.env_ file like the one in _.env.example_
-- Run the server: `npm run dev`
-- Use a tool like _PostMan_ to send requests to the server
+---
 
 ## How to use it?
 
-### Programmatically
+### Local installation
 
-This library exposes several functions for sending emails. The available functions are detailed below:
-- `TEMPLATES`: An object that contains the available email templates. Each template has a name and an associated function that generates the content of the email.
-- `SUBJECTS`: An object that contains the predefined subjects for emails.
-- `getCodingFlavourEmail`: A function that returns the Coding Flavour email address, used for sending emails.
-- `GmailService`: An object that contains the configuration and functions necessary to send emails through Gmail with nodemailer (default service).
-  - `sendMail`: A function that takes email parameters and sends it through Gmail.
-- `SendGrid`: An object that contains the configuration and functions necessary to send emails through SendGrid (maintained for compatibility).
-  - `sendMail`: A function that takes email parameters and sends it through SendGrid.
+- Clone the repository
+- Install dependencies: `npm i`
+- Link with NPM Link at root: `npm link`
+- In the consumer project: `npm link @coding-flavour/smtp`
 
-### As a server
+### Installation from Artifactory
 
-When using the service as a server, you can dynamically control the email template and subject through the following optional request parameter:
+- Add to the consumer's `package.json`: `"@coding-flavour/smtp": "3.0.0"`
+- Install: `npm i`
 
-- `templateKey`: Template and subject key to use (e.g., 'PORTFOLIO', 'WISE_SEEKER'). Default: 'PORTFOLIO'
+### Consuming from other projects
 
-## What does this toolset offer?
+The main function is `sendMail`. It accepts email data and an options object with the `dryRun` flag.
 
-With this tool, we want to offer a solution for managing emails in Coding Flavour. The goal is to centralize email management and facilitate its use through a simple and easy-to-use API.
+```typescript
+import { sendMail } from '@coding-flavour/smtp'
+import type { EmailData, SendEmailOptions } from '@coding-flavour/smtp'
 
-- Generation of email templates.
-- Sending emails through Gmail with 2FA authentication (default service).
-- Sending emails through SendGrid (maintained for compatibility).
-- Centralized management of email sending.
+// Dry-run (default) — validates and logs the content without sending
+await sendMail(
+  { from: 'user@domain.com', to: 'dsanchez', name: 'User', message: 'Hello' }
+)
 
-## YAML
+// Real send — must be an explicit and intentional action
+await sendMail(
+  { from: 'user@domain.com', to: 'dsanchez', name: 'User', message: 'Hello' },
+  { dryRun: false }
+)
+```
 
-_In Progress..._
+#### `EmailData` parameters
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `from` | `string` | Yes | Sender email (must be a valid email) |
+| `to` | `string` | Yes | Recipient — team member: `dsanchez`, `amayor`, `kopel` |
+| `name` | `string` | Yes | Sender name |
+| `message` | `string` | Yes | Message body |
+| `templateKey` | `string` | No | Template key. Default: `portfolio` |
+
+#### Available templates
+
+| Key | Description |
+|---|---|
+| `portfolio` | General contact from the portfolio |
+| `keenly` | Keenly access request |
+| `keenly_feedback` | Keenly feedback |
+| `family_vault_invitation` | Family Vault invitation |
+| `control_panel_invitation` | Control Panel invitation |
+
+#### Full exported API
+
+| Export | Type | Description |
+|---|---|---|
+| `sendMail` | `function` | Main sending function |
+| `EmailData` | `type` | Email data object type |
+| `SendEmailOptions` | `type` | Options object type (`dryRun`) |
+| `TEMPLATES` | `object` | Map of template functions by key |
+| `SUBJECTS` | `object` | Map of subjects by key |
+| `getCodingFlavourEmail` | `function` | Resolves a team member's email from their name |
+| `GmailService` | `function` | Gmail sending client (nodemailer) |
+| `SendGrid` | `function` | SendGrid sending client (compatibility) |
+
+---
+
+## How does it work?
+
+The library follows a single-responsibility architecture per layer:
+
+1. **`sendMail`** receives data and options, delegates validation, and decides whether to send or dry-run.
+2. **Validations** check that `from` is a valid email and that `to` corresponds to a team member registered in environment variables.
+3. **Helpers** (`TEMPLATES`, `SUBJECTS`) build the email content and subject from the `templateKey`.
+4. **`GmailService`** executes the real send via nodemailer with Gmail 2FA authentication.
+
+The `dryRun` flag is active by default — sending an email must always be an explicit, intentional action by the consumer.
+
+---
+
+## How to run the project?
+
+```bash
+npm i
+npm test                # All tests
+npm run test:unit       # Unit tests only
+npm run test:unit:debug # Unit tests with full output
+```
+
+### Environment variables
+
+Create a `.env` from `.env.example`:
+
+```
+EMAIL_DSANCHEZ=email@codingflavour.com
+EMAIL_AMAYOR=email@codingflavour.com
+EMAIL_KOPEL=email@codingflavour.com
+
+GMAIL_USER=your_account@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
+```
+
+---
+
+## Relevant notes
+
+- **`dryRun: true` is the default behavior.** Passing `{ dryRun: false }` is an explicit requirement to send real emails. This prevents accidental sends during development or testing.
+- **`SendGrid` is maintained for compatibility** but the active provider is Gmail. Active SendGrid support is not guaranteed.
+- The consumer is responsible for initializing environment variables before using the library. The project does not call `dotenv.config()` internally.
+
+---
 
 ## Credits
 
-Created by Daniel Sanchez Betancor for the Coding Flavour team
+Created by Daniel Sánchez Betancor for the Coding Flavour team.

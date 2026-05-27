@@ -2,6 +2,30 @@
 
 # Changelog
 
+## [3.0.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/3.0.0) - 2026-05-25
+
+#### 🔥 Removals
+
+- Express HTTP server removed. The package no longer exposes an HTTP service — it is exclusively a consumption library.
+- `trySendMail` removed from public exports. The main API function is now `sendMail`.
+- Scripts `dev` and `preprod` removed from `package.json`.
+
+#### 🚀 New features
+
+- `sendMail` exposed as the main library function, replacing `trySendMail`.
+- New `SendEmailOptions` parameter with `dryRun` flag (enabled by default). Pass `{ dryRun: false }` to send the email; without it, the function validates and logs the content without sending.
+- `EmailData` and `SendEmailOptions` exported from the entry point for consumers to type their calls.
+
+#### 🧪 Testing
+
+- `emailController` and `emailValidations` tests restructured under `test/unit/controllers/`.
+- Express mock removed and replaced with a shared, reusable logger mock.
+
+#### 📦 Dependencies
+
+- Removed `express`, `cors` and `dotenv` from production dependencies.
+- Removed `@types/express`, `@types/cors`, `nodemon`, `ts-node` and `tsc-esm-fix` from development dependencies.
+
 ## [2.0.0](https://github.com/CodingFlavour/coding-flavour-smtp/releases/tag/2.0.0) - 2026-03-27
 
 #### 🚀 New features
